@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: SSH Connect
+name: Setup New Droplet
 
 on: 
   workflow_dispatch:
@@ -9,7 +9,7 @@ jobs:
   run_example_job:
     runs-on: ubuntu-latest
     steps:
-    - name: print out example job
+    - name: Initialize Droplet
       uses: appleboy/ssh-action@v0.1.10
       with:
         host: ${{ secrets.DO_SERVICES_IP }}
@@ -18,4 +18,10 @@ jobs:
         port: ${{ secrets.DO_SERVICES_SSH_PORT }}
         command_timeout: 30m
         script: | 
-          echo "Nice Job!!!"
+          sudo apt update -y
+          sudo apt upgrade -y
+          curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+          sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+          sudo apt update -y
+          apt-cache policy docker-ce
+          sudo apt install docker-ce
