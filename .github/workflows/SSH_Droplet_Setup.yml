@@ -24,4 +24,5 @@ jobs:
           sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
           sudo DEBIAN_FRONTEND=noninteractive apt update -y
           apt-cache policy docker-ce
+          sudo apt -f install
           sudo apt install docker-ce -y
