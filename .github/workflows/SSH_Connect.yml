@@ -14,7 +14,7 @@ jobs:
       with:
         host: ${{ secrets.DO_SERVICES_IP }}
         username: ${{ secrets.DO_SERVICES_USERNAME }}
-        password: ${{ secrets.PASSWORD }}
+        password: ${{ secrets.DO_SERVICES_PASSWORD }}
         port: ${{ secrets.DO_SERVICES_SSH_PORT }}
         command_timeout: 30m
         script: | 
