@@ -44,4 +44,8 @@ jobs:
           echo -n ${{ secrets.POSTGRES_DB }} > postgres_db.txt
           echo -n ${{ secrets.POSTGRES_PASSWORD }} > postgres_password.txt
           echo -n ${{ secrets.POSTGRES_USER }} > postgres_user.txt
+          mkdir data
+          chmod a+rw data
+          mkdir uploads
+          chmod a+rw uploads
           
