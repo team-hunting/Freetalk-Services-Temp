@@ -1,0 +1,24 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on: 
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  run_example_job:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: print out example job
+      uses: appleboy/ssh-action@v0.1.10
+      with:
+        host: github.com
+        username: ${{ secrets.DO_SERVICES_USERNAME }}
+        key: ${{ secrets.DO_SERVICES_SSH_PRIVATE_KEY }}
+        port: ${{ secrets.DO_SERVICES_SSH_PORT }}
+        command_timeout: 30m
+        script: | 
+          echo "Nice Job!!!"
