@@ -37,11 +37,11 @@ jobs:
           git clone git@github.com:team-hunting/Freetalk-Services-Temp.git
           cd Freetalk-Services-Temp
           git pull
-          echo ${{ secrets.ADMIN_EMAIL }} > admin_email.txt
-          echo ${{ secrets.ADMIN_PASSWORD }} > admin_password.txt
-          echo ${{ secrets.DIRECTUS_KEY }} > directus_key.txt
-          echo ${{ secrets.DIRECTUS_SECRET }} > directus_secret.txt
-          echo ${{ secrets.POSTGRES_DB }} > postgres_db.txt
-          echo ${{ secrets.POSTGRES_PASSWORD }} > postgres_password.txt
-          echo ${{ secrets.POSTGRES_USER }} > postgres_user.txt
+          echo -n ${{ secrets.ADMIN_EMAIL }} > admin_email.txt
+          echo -n ${{ secrets.ADMIN_PASSWORD }} > admin_password.txt
+          echo -n ${{ secrets.DIRECTUS_KEY }} > directus_key.txt
+          echo -n ${{ secrets.DIRECTUS_SECRET }} > directus_secret.txt
+          echo -n ${{ secrets.POSTGRES_DB }} > postgres_db.txt
+          echo -n ${{ secrets.POSTGRES_PASSWORD }} > postgres_password.txt
+          echo -n ${{ secrets.POSTGRES_USER }} > postgres_user.txt
           
