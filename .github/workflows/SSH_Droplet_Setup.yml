@@ -17,12 +17,13 @@ jobs:
         password: ${{ secrets.DO_SERVICES_PASSWORD }}
         port: ${{ secrets.DO_SERVICES_SSH_PORT }}
         command_timeout: 30m
-        script: | 
-          sudo DEBIAN_FRONTEND=noninteractive apt update -y
-          sudo DEBIAN_FRONTEND=noninteractive apt upgrade -y
+        script: |
+          export DEBIAN_FRONTEND=noninteractive 
+          sudo apt update -y
+          sudo apt upgrade -y
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
           sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
-          sudo DEBIAN_FRONTEND=noninteractive apt update -y
+          sudo apt update -y
           apt-cache policy docker-ce
           sudo apt -f install
           sudo apt install docker-ce -y
