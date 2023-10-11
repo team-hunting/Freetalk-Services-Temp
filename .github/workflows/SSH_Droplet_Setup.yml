@@ -41,7 +41,7 @@ jobs:
           echo ${{ secrets.ADMIN_PASSWORD }} > admin_password.txt
           echo ${{ secrets.DIRECTUS_KEY }} > directus_key.txt
           echo ${{ secrets.DIRECTUS_SECRET }} > directus_secret.txt
-          echo ${{ secrets.POSTGRES_DB }} > posgres_db.txt
+          echo ${{ secrets.POSTGRES_DB }} > postgres_db.txt
           echo ${{ secrets.POSTGRES_PASSWORD }} > postgres_password.txt
           echo ${{ secrets.POSTGRES_USER }} > postgres_user.txt
           
