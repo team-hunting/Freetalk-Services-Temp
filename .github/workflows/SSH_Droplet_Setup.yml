@@ -18,12 +18,18 @@ jobs:
         port: ${{ secrets.DO_SERVICES_SSH_PORT }}
         command_timeout: 30m
         script: |
-          export DEBIAN_FRONTEND=noninteractive 
-          sudo apt update -y
-          sudo apt upgrade -y
+          # export DEBIAN_FRONTEND=noninteractive 
+          # sudo apt update -y
+          # sudo apt upgrade -y
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
           sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
-          sudo apt update -y
+          # sudo apt update -y
           apt-cache policy docker-ce
-          sudo apt -f install
+          # sudo apt -f install
           sudo apt install docker-ce -y
+          cd ~/.ssh
+          echo ${{ secrets.DO_SERVICES_SSH_PRIVATE_KEY }} > id_rsa
+          cd ~
+          mkdir freetalk-services
+          cd freetalk-services
+          git clone git@github.com:team-hunting/Freetalk-Services-Temp.git
