@@ -2,22 +2,19 @@
 
 name: SSH Connect
 
-# Controls when the workflow will run
 on: 
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   run_example_job:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
     steps:
     - name: print out example job
       uses: appleboy/ssh-action@v0.1.10
       with:
-        host: github.com
+        host: ${{ secrets.DO_SERVICES_IP }}
         username: ${{ secrets.DO_SERVICES_USERNAME }}
-        key: ${{ secrets.DO_SERVICES_SSH_PRIVATE_KEY }}
+        password: ${{ secrets.PASSWORD }}
         port: ${{ secrets.DO_SERVICES_SSH_PORT }}
         command_timeout: 30m
         script: | 
