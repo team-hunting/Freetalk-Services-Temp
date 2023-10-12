@@ -12,7 +12,9 @@ jobs:
       with:
         host: ${{ secrets.DO_SERVICES_IP }}
         username: ${{ secrets.DO_SERVICES_USERNAME }}
+        # For User/Pass Login
         # password: ${{ secrets.DO_SERVICES_PASSWORD }}
+        # For SSH Login - Must push the public key into ~/.ssh/authorized_keys beforehand 
         key: ${{ secrets.DO_SERVICES_SSH_PRIVATE_KEY_NOQUOTES }}
         port: ${{ secrets.DO_SERVICES_SSH_PORT }}
         command_timeout: 30m
