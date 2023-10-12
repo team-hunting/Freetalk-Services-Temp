@@ -18,25 +18,31 @@ jobs:
         port: ${{ secrets.DO_SERVICES_SSH_PORT }}
         command_timeout: 30m
         script: |
-          # export DEBIAN_FRONTEND=noninteractive 
-          # sudo apt update -y
-          # sudo apt upgrade -y
+          # Install Docker on Droplet
           curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
           sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" -y
-          # sudo apt update -y
           apt-cache policy docker-ce
-          # sudo apt -f install
           sudo apt install docker-ce -y
+          
+          # Add Private SSH Key to Droplet so that it can communicate with Github and pull repo
           echo ${{ secrets.DO_SERVICES_SSH_PRIVATE_KEY }} > ~/.ssh/id_rsa
+          
+          # Change permissions on id_rsa file for security
           chmod 400 ~/.ssh/id_rsa
+
+          # Add github to known hosts for SSH 
           # https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/githubs-ssh-key-fingerprints
           echo -e "github.com ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOMqqnkVzrm0SdG6UOoqKLsabgH5C9okWi0dh2l9GKJl\ngithub.com ecdsa-sha2-nistp256 AAAAE2VjZHNhLXNoYTItbmlzdHAyNTYAAAAIbmlzdHAyNTYAAABBBEmKSENjQEezOmxkZMy7opKgwFB9nkt5YRrYMjNuG5N87uRgg6CLrbo5wAdT/y6v0mKV0U2w0WZ2YB/++Tpockg=\ngithub.com ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCj7ndNxQowgcQnjshcLrqPEiiphnt+VTTvDP6mHBL9j1aNUkY4Ue1gvwnGLVlOhGeYrnZaMgRK6+PKCUXaDbC7qtbW8gIkhL7aGCsOr/C56SJMy/BCZfxd1nWzAOxSDPgVsmerOBYfNqltV9/hWCqBywINIR+5dIg6JTJ72pcEpEjcYgXkE2YEFXV1JHnsKgbLWNlhScqb2UmyRkQyytRLtL+38TGxkxCflmO+5Z8CSSNY7GidjMIZ7Q4zMjA2n1nGrlTDkzwDCsw+wqFPGQA179cnfGWOWRVruj16z6XyvxvjJwbz0wQZ75XK5tKSb7FNyeIEs4TT4jk+S4dhPeAUC5y+bDYirYgM4GC7uEnztnZyaVWQ7B381AK4Qdrwt51ZqExKbQpTUNn+EjqoTwvqNj4kqx5QUCI0ThS/YkOxJCXmPUWZbhjpCg56i+2aB6CmK2JGhn57K5mj0MNdBXA4/WnwH6XoPWJzK5Nyu2zB3nAZp+S5hpQs+p1vN1/wsjk=" > ~/.ssh/known_hosts
+          
+          # Setup directories and clone repo
           cd ~
           mkdir freetalk-services
           cd freetalk-services
           git clone git@github.com:team-hunting/Freetalk-Services-Temp.git
           cd Freetalk-Services-Temp
           git pull
+
+          # Create secrets files for use with docker compose
           echo -n ${{ secrets.ADMIN_EMAIL }} > admin_email.txt
           echo -n ${{ secrets.ADMIN_PASSWORD }} > admin_password.txt
           echo -n ${{ secrets.DIRECTUS_KEY }} > directus_key.txt
@@ -44,6 +50,8 @@ jobs:
           echo -n ${{ secrets.POSTGRES_DB }} > postgres_db.txt
           echo -n ${{ secrets.POSTGRES_PASSWORD }} > postgres_password.txt
           echo -n ${{ secrets.POSTGRES_USER }} > postgres_user.txt
+
+          # Create directus folders and modify permissions for read/write
           mkdir data
           chmod a+rw data
           mkdir uploads
