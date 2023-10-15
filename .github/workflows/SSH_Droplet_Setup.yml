@@ -4,9 +4,25 @@ on:
   workflow_dispatch:
 
 jobs:
-  run_init_scripts:
+  initialize_server:
     runs-on: ubuntu-latest
+    
     steps:
+    - name: Install Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18
+    
+    - name: Setup Directus Extensions
+      uses: actions/checkout@master
+      with:
+        repository: br41nslug/directus-extension-ai-pack
+        script: |
+          ls -a
+          cd directus-extension-ai-pack
+          npm install
+          npm run build
+        
     - name: Initialize Droplet
       uses: appleboy/ssh-action@v0.1.10
       with:
@@ -57,4 +73,8 @@ jobs:
           chmod a+rw data
           mkdir uploads
           chmod a+rw uploads
+          mkdir extensions
+          chmod a+rw extensions
+
+          scp -r ./ ${{ secrets.DO_SERVICES_USERNAME }}@${{ secrets.DO_SERVICES_IP }}:~/freetalk-services/Freetalk-Services-Temp/extensions/directus-extension-ai-operation-bundle
           
