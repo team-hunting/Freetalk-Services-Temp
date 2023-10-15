@@ -56,7 +56,12 @@ jobs:
           cd ~
           mkdir -p freetalk-services
           cd freetalk-services
-          git clone git@github.com:team-hunting/Freetalk-Services-Temp.git
+          rm -fr .git
+          git init
+          git remote add origin git@github.com:team-hunting/Freetalk-Services-Temp.git
+          git fetch
+          git reset --mixed origin/master
+          # git clone git@github.com:team-hunting/Freetalk-Services-Temp.git
           cd Freetalk-Services-Temp
           git pull
 
@@ -77,5 +82,13 @@ jobs:
           mkdir -p extensions
           chmod a+rw extensions
 
-          scp -r ./ ${{ secrets.DO_SERVICES_USERNAME }}@${{ secrets.DO_SERVICES_IP }}:~/freetalk-services/Freetalk-Services-Temp/extensions/directus-extension-ai-operation-bundle
-          
+    - name: SCP Extension
+      uses: appleboy/scp-action@v0.1.4
+      with:
+        host: ${{ secrets.DO_SERVICES_IP }}
+        username: ${{ secrets.DO_SERVICES_USERNAME }}
+        key: ${{ secrets.DO_SERVICES_SSH_PRIVATE_KEY_NOQUOTES }}
+        # password: ${{ secrets.PASSWORD }}
+        port: ${{ secrets.DO_SERVICES_SSH_PORT }}
+        source: ./
+        target: ~/freetalk-services/Freetalk-Services-Temp/extensions          
