@@ -54,7 +54,7 @@ jobs:
           
           # Setup directories and clone repo
           cd ~
-          mkdir freetalk-services
+          mkdir -p freetalk-services
           cd freetalk-services
           git clone git@github.com:team-hunting/Freetalk-Services-Temp.git
           cd Freetalk-Services-Temp
