@@ -21,7 +21,6 @@ jobs:
     - name: Install Directus Extensions
       run: |
         ls -a
-        cd directus-extension-ai-pack
         npm install
         npm run build
         
