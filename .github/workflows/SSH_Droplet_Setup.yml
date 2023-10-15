@@ -13,15 +13,17 @@ jobs:
       with:
         node-version: 18
     
-    - name: Setup Directus Extensions
+    - name: Checkout Directus Extensions
       uses: actions/checkout@master
       with:
         repository: br41nslug/directus-extension-ai-pack
-        script: |
-          ls -a
-          cd directus-extension-ai-pack
-          npm install
-          npm run build
+      
+    - name: Install Directus Extensions
+      run: |
+        ls -a
+        cd directus-extension-ai-pack
+        npm install
+        npm run build
         
     - name: Initialize Droplet
       uses: appleboy/ssh-action@v0.1.10
@@ -69,11 +71,11 @@ jobs:
           echo -n ${{ secrets.POSTGRES_USER }} > postgres_user.txt
 
           # Create directus folders and modify permissions for read/write
-          mkdir data
+          mkdir -p data
           chmod a+rw data
-          mkdir uploads
+          mkdir -p uploads
           chmod a+rw uploads
-          mkdir extensions
+          mkdir -p extensions
           chmod a+rw extensions
 
           scp -r ./ ${{ secrets.DO_SERVICES_USERNAME }}@${{ secrets.DO_SERVICES_IP }}:~/freetalk-services/Freetalk-Services-Temp/extensions/directus-extension-ai-operation-bundle
